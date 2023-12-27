@@ -1,0 +1,33 @@
+● ● ● ●  Create a topic by going to one of the brokers. ● ● ●
+➢Create a topic. To create a topic, run the following command:
+# ./bin/kafka-topics.sh --create --topic lw_sales_log --bootstrap-server 172.31.83.88:9092 --partitions 4 --replication-factor 2
+➢List a topic. To see the topic, run the following command:
+# ./bin/kafka-topics.sh --list --bootstrap-server 172.31.83.88:9092
+
+
+
+● In Apache Kafka, you can use command-line tools provided by Kafka itself to create producers and consumers. Here are the commands to run producers and consumers in Kafka:
+
+
+ ● ● ●  Kafka Producer:  ● ● ●
+➢Download the latest version of JDK or install Java 11 installed on your server.
+# sudo su -root
+# yum install java-11-amazon-corretto
+# java -version
+# wget https://downloads.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tgz
+# tar -xvzf  kafka_2.13-3.4.0.tgz
+
+➢To create a Kafka producer and start sending messages to a topic, use the following command:
+# ./bin/kafka-console-producer.sh --topic lw_sales_log --bootstrap-server 172.31.83.88:9092
+
+
+
+ ● ● ● Kafka Consumer:  ● ● ●
+# sudo su -root
+# yum install java-11-amazon-corretto
+# java -version
+# wget https://downloads.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tg
+# tar -xvzf  kafka_2.13-3.4.0.tgz
+
+➢To create a Kafka consumer and start receiving messages from a topic, use the following command:
+# ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic <topic-name> --from-beginning
