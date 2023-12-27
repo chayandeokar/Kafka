@@ -1,0 +1,110 @@
+# We have to launch a total of 7 instances.
+1)3 instances for brokers
+2)1 instance for zookeeper
+3)1 instance for kafdrop
+4)1 instance for producer
+5)1 instance for consumer
+
+
+The inbound rule should be set to allow for everybody in the Security group because brokers must communicate with one another.
+
+# Note: Since we deploy several instances at once, only one security group is created for all of them.
+
+● ● ● Configuring the ZooKeeper: ● ● ● 
+➢Download the latest version of JDK or Java 11 on your server.
+# sudo su -root
+# yum install java-11-amazon-corretto
+
+➢Check if Java is installed. Kafka requires Java to run.
+You can check if Java is installed by running the following command:     # java -version
+
+[Kafka]
+➢Download Kafka. You can download Kafka from the Apache Kafka website.
+# wget https://downloads.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tgz
+➢Extract the Kafka Package:
+# tar -xvzf  kafka_2.13-3.4.0.tgz➢Now you can see the zookeeper command in the bin folder
+
+
+➢Start ZooKeeper:
+# ./bin/zookeeper-server-start.sh config/zookeeper.properties &
+➢Once Zookeeper is running, the port number is visible.
+# netstat -tnlp
+
+
+
+
+
+● ● ● Configuring the Kafka broker 1: ● ● ● 
+➢Download the latest version of JDK or install Java 11 installed on the broker.
+# sudo su -root# yum install java-11-amazon-corretto
+➢Check if Java is installed. Kafka requires Java to run. You can check if Java is installed by running the following command
+# java -version
+
+➢Download Kafka. You can download Kafka from the Apache Kafka website.
+# wget https://downloads.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tgz
+➢Extract the Kafka Package:
+# tar -xvzf  kafka_2.13-3.4.0.tgz
+
+ ● ● ●  To configure a Kafka broker with ZooKeeper ● ● ● 
+you need to modify the server.properties file of the Kafka broker.
+➢Open the server.properties file in a text editor.
+➢broker.id: Specify a unique ID for the Kafka broker. Each broker in a Kafka cluster must have a unique ID.
+➢zookeeper.connect: Set the connection string for the ZooKeeper. Provide a comma-separated list of ZooKeeper host:port pairs.
+
+➢Start Kafka. To start Kafka, run the following command:
+# ./bin/kafka-server-start.sh config/server.properties
+➢Now, if you go to the Zookeeper system and type the command below, you can see a list of brokers.
+
+
+● ● ● Configure Kafdrop via Docker  ● ● ●
+➢Install docker on your Kafdrop machine
+# yum install docker -y
+➢Start and enable docker service
+# systemctl enable docker --now3
+➢Launch container in background:
+# docker run -d --rm -p 9000:9000 \
+      -e KAFKA_BROKERCONNECT=172.31.83.88:9092\
+      -e JVM_OPTS="-Xms32M -Xmx64M" \
+      -e SERVER_SERVLET_CONTEXTPATH="/" \
+      obsidiandynamics/kafdrop
+
+
+● ● ● Configuring the Kafka broker -2: ● ● ●
+➢Download the latest version of JDK or install Java 11 installed on the broker.
+# sudo su -root
+# yum install java-11-amazon-corretto
+# java -version
+
+➢Download Kafka. You can download Kafka from the Apache Kafka website.
+# wget https://downloads.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tgz
+➢Extract the Kafka Package:
+# tar -xvzf  kafka_2.13-3.4.0.tgz
+
+➢To configure a Kafka broker with ZooKeeper, you need to modify the server.properties file of the Kafka broker.
+➢Open the server.properties file in a text editor.
+➢broker.id:Specify a unique ID for the Kafka broker.
+➢zookeeper.connect:Set the connection string for the ZooKeeper. Provide a comma-separated list of ZooKeeper host:port pairs.
+
+➢Save the server.properties file after making the necessary changes.
+➢Start Kafka. To start Kafka, run the following command:
+# ./bin/kafka-server-start.sh config/server.properties
+
+
+
+ ● ● ● Configuring the Kafka broker -3  ● ● ●
+➢Download the latest version of JDK or install Java 11 installed on the broker
+# sudo su -root
+# yum install java-11-amazon-corretto
+# java -version
+# wget https://downloads.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tgz
+# tar -xvzf  kafka_2.13-3.4.0.tgz
+
+➢Open the server.properties file in a text editor.
+➢broker.id , ➢zookeeper.connect
+➢Save the server.properties file after making the necessary changes.
+➢Start Kafka. To start Kafka, run the following command:
+# ./bin/kafka-server-start.sh config/server.properties
+
+
+
+
